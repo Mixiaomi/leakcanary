@@ -81,6 +81,8 @@ public class DisplayLeakService extends AbstractAnalysisResultService {
     }
     // New notification id every second.
     int notificationId = (int) (SystemClock.uptimeMillis() / 1000);
+
+    //拿到结果后就到DisplayLeakService中弹通知展示, 基本上就是分析展示的流程了.
     showNotification(this, contentTitle, contentText, pendingIntent, notificationId);
     afterDefaultHandling(heapDump, result, leakInfo);
   }

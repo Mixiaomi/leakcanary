@@ -28,6 +28,8 @@ public interface GcTrigger {
       // java/lang/ref/FinalizationTester.java
       // System.gc() does not garbage collect every time. Runtime.gc() is
       // more likely to perfom a gc.
+      //我们再watch方法中每次都会把当前需要检测的对象或者说是Activity组件加入Set<String> retainedKeys这个Set容器中，
+      // 然后系统就会调用gcTrigger.runGc()来回收KeyedWeakReference弱引用
       Runtime.getRuntime().gc();
       enqueueReferences();
       System.runFinalization();

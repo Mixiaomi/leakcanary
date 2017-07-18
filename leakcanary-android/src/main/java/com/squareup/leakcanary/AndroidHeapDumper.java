@@ -59,6 +59,9 @@ public final class AndroidHeapDumper implements HeapDumper {
 
     Toast toast = waitingForToast.get();
     try {
+//// TODO: 2017/7/15  
+      //创建堆内存镜像也即是生成的  .hprof文件
+      //采用android自带的Debug来来doump hprof文件然后保存到LeakDirectoryProvider初始化的文件目录下
       Debug.dumpHprofData(heapDumpFile.getAbsolutePath());
       cancelToast(toast);
       return heapDumpFile;

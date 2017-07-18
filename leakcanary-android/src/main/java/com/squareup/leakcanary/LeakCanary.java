@@ -37,7 +37,10 @@ public final class LeakCanary {
    * references (on ICS+).
    */
   public static RefWatcher install(Application application) {
+
+    //DisplayLeakService 将来显示内存泄露的通知
     return refWatcher(application).listenerServiceClass(DisplayLeakService.class)
+            //将已知的泄露列表传入, 将来在弹出泄露通知原时候会有一个exclude的标志
         .excludedRefs(AndroidExcludedRefs.createAppDefaults().build())
         .buildAndInstall();
   }

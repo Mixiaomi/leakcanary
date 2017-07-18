@@ -33,7 +33,7 @@ public final class HeapAnalyzerService extends IntentService {
   private static final String LISTENER_CLASS_EXTRA = "listener_class_extra";
   private static final String HEAPDUMP_EXTRA = "heapdump_extra";
 
-  public static void runAnalysis(Context context, HeapDump heapDump,
+  public static void runAnalysis(Context context, HeapDump heapDump,//DisplayLeakService.class
       Class<? extends AbstractAnalysisResultService> listenerServiceClass) {
     Intent intent = new Intent(context, HeapAnalyzerService.class);
     intent.putExtra(LISTENER_CLASS_EXTRA, listenerServiceClass.getName());
@@ -54,7 +54,7 @@ public final class HeapAnalyzerService extends IntentService {
     HeapDump heapDump = (HeapDump) intent.getSerializableExtra(HEAPDUMP_EXTRA);
 
     HeapAnalyzer heapAnalyzer = new HeapAnalyzer(heapDump.excludedRefs);
-
+//这里使用了HaHa对Dump出来的堆进行分析, 拿到处理结果
     AnalysisResult result = heapAnalyzer.checkForLeak(heapDump.heapDumpFile, heapDump.referenceKey);
     AbstractAnalysisResultService.sendResultToListener(this, listenerClassName, heapDump, result);
   }

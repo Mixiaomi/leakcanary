@@ -18,7 +18,6 @@ package com.squareup.leakcanary.internal;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -39,7 +38,6 @@ import static android.content.pm.PackageManager.DONT_KILL_APP;
 import static android.content.pm.PackageManager.GET_SERVICES;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static android.os.Build.VERSION_CODES.O;
 
 public final class LeakCanaryInternals {
 
@@ -85,7 +83,7 @@ public final class LeakCanaryInternals {
     ComponentName component = new ComponentName(appContext, componentClass);
     PackageManager packageManager = appContext.getPackageManager();
     int newState = enabled ? COMPONENT_ENABLED_STATE_ENABLED : COMPONENT_ENABLED_STATE_DISABLED;
-    // Blocks on IPC.
+    //// 显示应用图标
     packageManager.setComponentEnabledSetting(component, newState, DONT_KILL_APP);
   }
 
@@ -150,10 +148,10 @@ public final class LeakCanaryInternals {
         .setContentText(contentText)
         .setAutoCancel(true)
         .setContentIntent(pendingIntent);
-    if (SDK_INT >= O) {
-      String channelName = context.getString(R.string.leak_canary_notification_channel);
-      setupNotificationChannel(channelName, notificationManager, builder);
-    }
+//    if (SDK_INT >= O) {
+//      String channelName = context.getString(R.string.leak_canary_notification_channel);
+//      setupNotificationChannel(channelName, notificationManager, builder);
+//    }
     if (SDK_INT < JELLY_BEAN) {
       notification = builder.getNotification();
     } else {
@@ -162,17 +160,17 @@ public final class LeakCanaryInternals {
     notificationManager.notify(notificationId, notification);
   }
 
-  @TargetApi(O)
-  private static void setupNotificationChannel(String channelName,
-      NotificationManager notificationManager, Notification.Builder builder) {
-    if (notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
-      NotificationChannel notificationChannel =
-          new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName,
-              NotificationManager.IMPORTANCE_DEFAULT);
-      notificationManager.createNotificationChannel(notificationChannel);
-    }
-    builder.setChannelId(NOTIFICATION_CHANNEL_ID);
-  }
+//  @TargetApi(O)
+//  private static void setupNotificationChannel(String channelName,
+//      NotificationManager notificationManager, Notification.Builder builder) {
+//    if (notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+//      NotificationChannel notificationChannel =
+//          new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName,
+//              NotificationManager.IMPORTANCE_DEFAULT);
+//      notificationManager.createNotificationChannel(notificationChannel);
+//    }
+//    builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+//  }
 
   public static Executor newSingleThreadExecutor(String threadName) {
     return Executors.newSingleThreadExecutor(new LeakCanarySingleThreadFactory(threadName));

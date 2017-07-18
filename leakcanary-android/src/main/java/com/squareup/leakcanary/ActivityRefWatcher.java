@@ -71,6 +71,7 @@ public final class ActivityRefWatcher {
   }
 
   void onActivityDestroyed(Activity activity) {
+      //核心的代码
     refWatcher.watch(activity);
   }
 
