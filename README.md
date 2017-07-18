@@ -1,7 +1,7 @@
 
 # LeakCanary
 
-A memory leak detection library for Android and Java.
+A memory leak detection library for Android and Java.  HAHA
 
 *“A small leak will sink a great ship.”* - Benjamin Franklin
 
