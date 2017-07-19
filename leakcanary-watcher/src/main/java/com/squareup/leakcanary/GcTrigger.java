@@ -32,7 +32,7 @@ public interface GcTrigger {
       // 然后系统就会调用gcTrigger.runGc()来回收KeyedWeakReference弱引用
       Runtime.getRuntime().gc();
       enqueueReferences();
-      System.runFinalization();
+      System.runFinalization();//
     }
 
     private void enqueueReferences() {

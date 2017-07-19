@@ -54,6 +54,7 @@ public final class RefWatcher {
         this.heapDumper = checkNotNull(heapDumper, "heapDumper");
         this.heapdumpListener = checkNotNull(heapdumpListener, "heapdumpListener");
         this.excludedRefs = checkNotNull(excludedRefs, "excludedRefs");
+        //维护对象的一致性快照,操作都首先取得后台数组的副本,实现并发操作
         retainedKeys = new CopyOnWriteArraySet<>();
         queue = new ReferenceQueue<>();
     }
@@ -105,6 +106,7 @@ public final class RefWatcher {
         long gcStartNanoTime = System.nanoTime();
         long watchDurationMs = NANOSECONDS.toMillis(gcStartNanoTime - watchStartNanoTime);
         //删除已经只有弱引用的对象, 就是去掉肯定不会泄露的对象
+        //// TODO: 2017/7/19  
         removeWeaklyReachableReferences();
         //正在Debug的程序直接通过检测, 上面提到的RefWatcher.DISABLED就是使用的这个来跳过的
         if (debuggerControl.isDebuggerAttached()) {
